@@ -223,7 +223,8 @@ public class TimeTableFragment extends Fragment {
                 GridLayout timetableGridLayout = (GridLayout)rootView.findViewById(R.id.timetableGridLayout);
 
                 setTimeTableBackground(backgroundGridLayout, mSelectedScheduleID);
-                setTimeTableMain(timetableGridLayout, mSelectedScheduleID);
+//                setTimeTableMain(timetableGridLayout, mSelectedScheduleID);
+                setTimeTableMain2(timetableGridLayout, mSelectedScheduleID);
 
             }
         }
@@ -391,7 +392,7 @@ public class TimeTableFragment extends Fragment {
 
             TextView subject0 = new TextView(getActivity());
             subject0.setWidth(cellWidth);
-            subject0.setHeight(cellHeight*rowSpan0);
+            subject0.setHeight(cellHeight * rowSpan0);
             subject0.setText(cursor.getString(COL_SUBJECT_NAME));
             subject0.setTextSize(30);
             subject0.setBackgroundColor(R.color.abc_background_cache_hint_selector_material_light);
@@ -439,13 +440,129 @@ public class TimeTableFragment extends Fragment {
 
             }
         }
-
-
-
-
-
-
     }
+
+    /* 시간표 그리기 Linear Layout */
+    private  void setTimeTableMain2(GridLayout gridLayout, int scheduleID ){
+        Uri subjectAndTimeByScheduleUri = MTTContract.SubjectEntry.buildSubjectTimeWithScheduleIdUri(scheduleID);
+        Cursor cursorForLayout = getActivity().getContentResolver().query(
+                subjectAndTimeByScheduleUri,
+                TIMETABLE_LAYOUT_COLUMNS,
+                null,
+                null,
+                null);
+
+        cursorForLayout.moveToFirst();
+        int startTime = cursorForLayout.getInt(COL_EARLIEST_TIME)/60;
+        int endTime = cursorForLayout.getInt(COL_LATEST_TIME)/60;
+        int columnCount = cursorForLayout.getInt(COL_LAST_DAY)+1;
+        int rowCount = endTime-startTime+1;
+        int cellWidth = Utility.getDisplayWidth() / columnCount;
+        int cellHeight = Utility.getDisplayHeight()/(rowCount+1);
+
+
+        cursorForLayout.close();
+
+        gridLayout.setColumnCount(columnCount);
+
+
+        TextView[] day = new TextView[columnCount];
+        for (int i =0, length=day.length; i<length; i++) {
+            day[i] = new TextView(getActivity());
+            day[i].setWidth(cellWidth);
+            day[i].setHeight(30);
+            gridLayout.addView(day[i],i);
+        }
+
+
+        TextView timeColumn = new TextView(getActivity());
+        timeColumn.setWidth(cellWidth);
+        timeColumn.setHeight(cellHeight*rowCount);
+        timeColumn.setText(" ");
+        GridLayout.LayoutParams gridLayoutParam = new GridLayout.LayoutParams();
+        gridLayoutParam.columnSpec = spec(0);
+        gridLayoutParam.rowSpec = spec(1);
+        gridLayout.addView(timeColumn,gridLayoutParam);
+
+
+        String sortOrder = MTTContract.TimeEntry.COLUMN_DAY + " ASC, " +
+                MTTContract.TimeEntry.COLUMN_START_TIME + " ASC";
+        Cursor cursor = getActivity().getContentResolver().query(
+                subjectAndTimeByScheduleUri,
+                TIMETABLE_COLUMNS,
+                null,
+                null,
+                sortOrder);
+
+        LinearLayout[] colLinearLayout = new LinearLayout[7];
+        for (int i=0, length=colLinearLayout.length; i<length; i++){
+            colLinearLayout[i]= new LinearLayout(getActivity());
+            colLinearLayout[i].setOrientation(LinearLayout.VERTICAL);
+        }
+
+        int previousCol = 0;
+        float previousEnd = 0.0f;
+        while(cursor.moveToNext()){
+
+            int col = cursor.getInt(COL_TIME_DAY);
+            float start = (float)cursor.getInt(COL_TIME_START_TIME);
+            float end = (float)cursor.getInt(COL_TIME_END_TIME);
+            float rowSpan = (end-start)/60.0f;// + ((end-start)%60)/60;;
+
+            TextView subject = new TextView(getActivity());
+            subject.setWidth(cellWidth);
+            subject.setHeight((int)(cellHeight*rowSpan));
+            subject.setText(cursor.getString(COL_SUBJECT_NAME));
+            subject.setTextSize(25);
+            subject.setGravity(Gravity.CENTER);
+            subject.setBackgroundColor(R.color.abc_background_cache_hint_selector_material_light);
+            subject.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getActivity(), SubjectDetailActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+
+
+
+
+            // 이전 과목 데이터가 지금 과목 데이터와 다른 요일임.
+            if(previousCol != col && previousCol !=0){
+                GridLayout.LayoutParams subjectGridLayoutParam = new GridLayout.LayoutParams();
+                subjectGridLayoutParam.columnSpec = spec(previousCol);
+                subjectGridLayoutParam.rowSpec = spec(1);
+                gridLayout.addView(colLinearLayout[previousCol-1],subjectGridLayoutParam);
+
+            } else {
+                if(previousEnd !=0.0f && previousEnd!=start) {
+                    TextView blank = new TextView(getActivity());
+                    blank.setWidth(cellWidth);
+                    blank.setHeight((int)(cellHeight*(start-previousEnd)/60.0f));
+                    blank.setText("blank");
+                    colLinearLayout[col-1].addView(blank);
+
+                }
+
+            }
+            colLinearLayout[col-1].addView(subject);
+
+            if (cursor.isLast()){
+                GridLayout.LayoutParams subjectGridLayoutParam = new GridLayout.LayoutParams();
+                subjectGridLayoutParam.columnSpec = spec(col);
+                subjectGridLayoutParam.rowSpec = spec(1);
+                gridLayout.addView(colLinearLayout[col-1],subjectGridLayoutParam);
+            }
+
+
+            previousCol = col;
+            previousEnd = end;
+        }
+    }
+
+
 
     /* 공유기능 */
     /*
