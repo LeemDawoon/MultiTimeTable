@@ -77,6 +77,9 @@ public class SubjectDetailActivity extends ActionBarActivity {
             return true;
         }
         if (id == R.id.action_edit) {
+            Intent intent = new Intent(this, SubjectUpdateActivity.class);
+            startActivity(intent);
+
             return true;
         }
         if (id == R.id.action_discard) {

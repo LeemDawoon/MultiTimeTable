@@ -1,12 +1,17 @@
 package app.com.multitimetable.android.multitimetable;
 
-import android.app.Activity;
+
+
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,21 +22,12 @@ import android.widget.Toast;
 import app.com.multitimetable.android.multitimetable.data.MTTContract;
 
 
-public class AddSubjectActivity extends Activity {
-
-    private AddSubjectActivityCallbacks mCallback = new AddSubjectActivityCallbacks() {
-        @Override
-        public void onAddSubjectComplete(int drawerPosition) {
-
-        }
-    };
-
-    public interface AddSubjectActivityCallbacks {
-        public void onAddSubjectComplete(int drawerPosition);
-    }
+public class SubjectInsertActivity extends ActionBarActivity {
 
     public final static String SELECTED_SCHEDULE_ID="selected_schedule_id";
     public final static String SECTION_NUMBER="section_number";
+
+//    public static MainActivity mainActivity;
 
     public class ViewHolderForTime {
         public Spinner day;
@@ -42,12 +38,11 @@ public class AddSubjectActivity extends Activity {
 
     public ViewHolderForTime[] mViewHoldersForTime;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_subject);
-        int a =  getIntent().getExtras().getInt(SELECTED_SCHEDULE_ID);
-        Toast.makeText(this, a+" ", Toast.LENGTH_LONG).show();
+        setContentView(R.layout.activity_subject_insert);
 
         mViewHoldersForTime = new ViewHolderForTime[5];
 
@@ -91,19 +86,19 @@ public class AddSubjectActivity extends Activity {
         mViewHoldersForTime[4].endTime.setOnClickListener(timeviewOnclickListener);
         mViewHoldersForTime[4].place = (EditText)this.findViewById(R.id.newClassroomName4);
 
-
-        // cancel Button
-        Button cancelBtn = (Button) this.findViewById(R.id.btnCancel);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.action_bar_for_edit);
+        Button cancelBtn = (Button) actionBar.getCustomView().findViewById(R.id.btnCancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(SubjectInsertActivity.this, "ddddd",Toast.LENGTH_LONG).show();
                 onBackPressed();
             }
         });
-
-        // OK Button
-        Button okButton = (Button) this.findViewById(R.id.btnOK);
-        okButton.setOnClickListener(new View.OnClickListener() {
+        Button okBtn = (Button) actionBar.getCustomView().findViewById(R.id.btnOK);
+        okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newSubjectName = ((EditText)findViewById(R.id.newSubjectName)).getText().toString();
@@ -150,7 +145,7 @@ public class AddSubjectActivity extends Activity {
                     }
                 }else {
                     // 1. Instantiate an AlertDialog.Builder with its constructor
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddSubjectActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SubjectInsertActivity.this);
 
                     // 2. Chain together various setter methods to set the dialog characteristics
                     builder.setMessage("과목 이름, 요일, 시작시간, 종료시간 데이터는 과목 추가를 위한 필수 데이터 입니다.");
@@ -161,24 +156,23 @@ public class AddSubjectActivity extends Activity {
                     dialog.show();
                 }
 
-                mCallback.onAddSubjectComplete(getIntent().getExtras().getInt(SECTION_NUMBER)-1);
-                onBackPressed();
-
-
-
-
+                Intent intent = new Intent();
+                intent.putExtra(SECTION_NUMBER,getIntent().getExtras().getInt(SECTION_NUMBER));
+                setResult(RESULT_OK,intent);
+                finish();
 
             }
         });
 
-
     }
+
+
 
     private View.OnClickListener timeviewOnclickListener = new View.OnClickListener() {
 
         @Override
         public void onClick(final View v) {
-            new TimePickerDialog(AddSubjectActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            new TimePickerDialog(SubjectInsertActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     EditText parentText = (EditText)v;
@@ -188,15 +182,6 @@ public class AddSubjectActivity extends Activity {
             }, 9, 0, false).show();
         }
     };
-
-
-    /*
-    public View makeNewForm(){
-        placeAndTimeFormIndex++;
-        View dayPicker = new Spinner(this, )
-
-    }
-    */
 
 
 }

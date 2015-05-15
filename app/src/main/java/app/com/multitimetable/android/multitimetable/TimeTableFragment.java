@@ -6,15 +6,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.text.Layout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,12 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import app.com.multitimetable.android.multitimetable.data.MTTContract;
 
 import static android.widget.GridLayout.*;
+import static app.com.multitimetable.android.multitimetable.SubjectInsertActivity.SECTION_NUMBER;
 
 
 public class TimeTableFragment extends Fragment {
@@ -104,6 +99,9 @@ public class TimeTableFragment extends Fragment {
     static final int COL_PLACE=3;
 
 
+    public interface TimeTableFragmentCallbacks {
+        public void onSubjectInsertComplete(int sectionNumber);
+    }
 
 //    public View rootView;
     private  ShareActionProvider mShareActionProvider;
@@ -164,12 +162,14 @@ public class TimeTableFragment extends Fragment {
 
         if (id == R.id.action_new) {
 
-            Intent intent = new Intent(getActivity(),AddSubjectActivity.class)
+//            SubjectInsertActivity.mainActivity = (MainActivity)getActivity();
+            Intent intent = new Intent(getActivity(),SubjectInsertActivity.class)
 //                    .putExtra(AddSubjectActivity.SELECTED_SCHEDULE_ID,getArguments().getInt(ARG_SELECTED_SCHEDULE_ID))
 //                    .putExtra(AddSubjectActivity.SECTION_NUMBER, getArguments().getInt(ARG_SECTION_NUMBER));
-                    .putExtra(AddSubjectActivity.SELECTED_SCHEDULE_ID, mSelectedScheduleID)
-                    .putExtra(AddSubjectActivity.SECTION_NUMBER, mSectionNumber);
-            startActivity(intent);
+                    .putExtra(SubjectInsertActivity.SELECTED_SCHEDULE_ID, mSelectedScheduleID)
+                    .putExtra(SECTION_NUMBER, mSectionNumber);
+//            startActivity(intent);
+            startActivityForResult(intent, 0);
             return true;
         }
         if (id == R.id.action_compare) {
@@ -238,7 +238,17 @@ public class TimeTableFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case Activity.RESULT_OK:
+                ((TimeTableFragmentCallbacks)getActivity()).onSubjectInsertComplete(data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER, 0));
+                break;
+            default:
+                break;
+        }
+    }
 
     //----- Helper Method
 

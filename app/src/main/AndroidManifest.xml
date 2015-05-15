@@ -27,10 +27,10 @@
             android:syncable="true" />
 
         <activity
-            android:name=".AddSubjectActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:name=".SubjectInsertActivity"
             android:label="@string/title_activity_add_subject"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:parentActivityName=".MainActivity"
+            >
         </activity>
         <activity
             android:name=".SelectScheduleActivity"
@@ -50,12 +50,16 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".HelpActivity"
             android:label="@string/title_activity_help"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".SubjectUpdateActivity"
+            android:label="@string/title_activity_subject_update" >
         </activity>
     </application>
 

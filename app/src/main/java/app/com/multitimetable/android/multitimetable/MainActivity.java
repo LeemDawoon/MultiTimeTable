@@ -11,10 +11,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity
-        implements TimeTableDrawerFragment.NavigationDrawerCallbacks, AddSubjectActivity.AddSubjectActivityCallbacks {
+        implements TimeTableDrawerFragment.NavigationDrawerCallbacks, TimeTableFragment.TimeTableFragmentCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -38,7 +39,7 @@ public class MainActivity extends ActionBarActivity
         mTitle = getTitle();
 
         // Set up the drawer.
-        mTimeTableDrawerFragment.setUp(R.id.navigation_drawer,(DrawerLayout) findViewById(R.id.drawer_layout));
+        mTimeTableDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         onNavigationDrawerItemSelected(1);
 
@@ -77,11 +78,11 @@ public class MainActivity extends ActionBarActivity
         args.putInt(ScheduleUpdateOrDeleteOptionDialogFragment.ARG_SCHEDULE_ID, mSelectedScheduleID);
         args.putString(ScheduleUpdateOrDeleteOptionDialogFragment.ARG_SCHEDULE_NAME, mSelectedScheduleName);
         scheduleUpdateOrDeleteOptionDialogFragment.setArguments(args);
-        scheduleUpdateOrDeleteOptionDialogFragment.show(this.getSupportFragmentManager(),"SCHEDULE_UPDATE_OR_DELETE_DIALOG_FRAGMENT");
+        scheduleUpdateOrDeleteOptionDialogFragment.show(this.getSupportFragmentManager(), "SCHEDULE_UPDATE_OR_DELETE_DIALOG_FRAGMENT");
     }
 
     public void onSectionAttached(int number) {
-        setTitleAndSelectedScheduleID(number-1);
+        setTitleAndSelectedScheduleID(number - 1);
     }
 
     public void restoreActionBar() {
@@ -131,28 +132,34 @@ public class MainActivity extends ActionBarActivity
 
     /* 과목 추가 콜백 함수. TimeTableFragment를 reload 하기 위함. */
     @Override
-    public void onAddSubjectComplete(int drawerPosition) {
-        onNavigationDrawerItemSelected(drawerPosition);
+    public void onSubjectInsertComplete(int sectionNumber) {
+//        setTitleAndSelectedScheduleID(drawerPosition);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, TimeTableFragment.newInstance(drawerPosition + 1, mSelectedScheduleID, mSelectedScheduleName))
+//                .commit();
+        onNavigationDrawerItemSelected(sectionNumber-1);
     }
 
 
-    private void setTitleAndSelectedScheduleID(int index){
+    private void setTitleAndSelectedScheduleID(int index) {
 
-        if(index != 0) --index; // header 위치값을 추가로 뺴준다.
-        if(mTimeTableDrawerFragment!=null && mTimeTableDrawerFragment.mTimeTableDrawerAdapter !=null) {
-            Cursor cursor = (Cursor)(mTimeTableDrawerFragment.mTimeTableDrawerAdapter.getItem(index));
+        if (index != 0) --index; // header 위치값을 추가로 뺴준다.
+        if (mTimeTableDrawerFragment != null && mTimeTableDrawerFragment.mTimeTableDrawerAdapter != null) {
+            Cursor cursor = (Cursor) (mTimeTableDrawerFragment.mTimeTableDrawerAdapter.getItem(index));
 
-            if(cursor!= null && cursor.getCount()!=0) {
+            if (cursor != null && cursor.getCount() != 0) {
                 mSelectedScheduleID = cursor.getInt(TimeTableDrawerFragment.COL_SCHEDULE_ID);
                 mSelectedScheduleName = cursor.getString(TimeTableDrawerFragment.COL_SCHEDULE_NAME);
                 mTitle = cursor.getString(TimeTableDrawerFragment.COL_SCHEDULE_NAME);
             }
 
-        }else{
+        } else {
 //            mSelectedScheduleID=1;
         }
 
     }
-
-
 }
+
+
+
