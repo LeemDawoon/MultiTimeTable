@@ -48,6 +48,8 @@ public class TimeTableDrawerAdapter extends CursorAdapter {
         viewHolder.mScheduleTitleView.setText(cursor.getString(TimeTableDrawerFragment.COL_SCHEDULE_NAME));
 //        boolean isOff = (cursor.getInt(TimeTableDrawerFragment.COL_IS_OFF)==0)?false:true;
 //        viewHolder.mScheduleisOffCheckBox.setChecked(!isOff);
+//
+
 
     }
 }
