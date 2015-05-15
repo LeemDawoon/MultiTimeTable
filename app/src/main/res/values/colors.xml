@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="subject_01">#FF6B6B</color>
+    <color name="subject_02">#FFAE6B</color>
+    <color name="subject_03">#FFCE6B</color>
+    <color name="subject_04">#FFE66B</color>
+    <color name="subject_05">#FFFF6B</color>
+    <color name="subject_06">#C2F065</color>
+    <color name="subject_07">#58D358</color>
+    <color name="subject_08">#46A6A6</color>
+    <color name="subject_09">#5774B6</color>
+    <color name="subject_10">#715ABA</color>
+    <color name="subject_11">#9252B5</color>
+    <color name="subject_12">#D3599E</color>
+</resources>

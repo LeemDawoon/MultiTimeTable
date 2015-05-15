@@ -262,23 +262,13 @@ public class TimeTableFragment extends Fragment {
 
         gridLayout.setColumnCount(columnCount);
 
-        int [] dayArray = new int[8];
-        dayArray[0] = R.string.time_and_day;
-        dayArray[1] = R.string.time_mon;
-        dayArray[2] = R.string.time_tue;
-        dayArray[3] = R.string.time_wed;
-        dayArray[4] = R.string.time_thu;
-        dayArray[5] = R.string.time_fri;
-        dayArray[6] = R.string.time_sat;
-        dayArray[7] = R.string.time_sun;
-
 
         TextView[] day = new TextView[columnCount];
         for (int i =0, length=day.length; i<length; i++) {
             day[i] = new TextView(getActivity());
             day[i].setWidth(Utility.getDisplayWidth() / columnCount);
             day[i].setHeight(30);
-            day[i].setText(dayArray[i]);
+            day[i].setText(Utility.getDayAbbrResource(i));
             day[i].setGravity(Gravity.CENTER);
             day[i].setTextSize(20);
             day[i].setBackgroundColor(R.color.abc_primary_text_material_light);
@@ -373,16 +363,7 @@ public class TimeTableFragment extends Fragment {
                 null,
                 null,
                 sortOrder);
-//
-//        static final int COL_TIME_ID=0;
-//        static final int COL_TIME_DAY=1;
-//        static final int COL_TIME_START_TIME=2;
-//        static final int COL_TIME_END_TIME=3;
-//        static final int COL_TIME_PLACE=4;
-//        static final int COL_SUBJECT_ID=5;
-//        static final int COL_SUBJECT_NAME=6;
-//        static final int COL_SUBJECT_PROFESSOR=7;
-//        static final int COL_SUBJECT_COLOR=8;
+
         if (cursor.moveToFirst()) {
             int col0 = cursor.getInt(COL_TIME_DAY);
             int start0 = cursor.getInt(COL_TIME_START_TIME);
@@ -487,7 +468,7 @@ public class TimeTableFragment extends Fragment {
 
         String sortOrder = MTTContract.TimeEntry.COLUMN_DAY + " ASC, " +
                 MTTContract.TimeEntry.COLUMN_START_TIME + " ASC";
-        Cursor cursor = getActivity().getContentResolver().query(
+        final Cursor cursor = getActivity().getContentResolver().query(
                 subjectAndTimeByScheduleUri,
                 TIMETABLE_COLUMNS,
                 null,
@@ -500,6 +481,7 @@ public class TimeTableFragment extends Fragment {
             colLinearLayout[i].setOrientation(LinearLayout.VERTICAL);
         }
 
+
         int previousCol = 0;
         float previousEnd = 0.0f;
         while(cursor.moveToNext()){
@@ -509,18 +491,35 @@ public class TimeTableFragment extends Fragment {
             float end = (float)cursor.getInt(COL_TIME_END_TIME);
             float rowSpan = (end-start)/60.0f;// + ((end-start)%60)/60;;
 
+            final int subjectIdForDetail = cursor.getInt(COL_SUBJECT_ID);
+            final String subjectNameForDetail = cursor.getString(COL_SUBJECT_NAME);
+            final String subjectProfessorForDetail = cursor.getString(COL_SUBJECT_PROFESSOR);
+            final int dayForDetail= cursor.getInt(COL_TIME_DAY);
+            final int startTimeForDetail= cursor.getInt(COL_TIME_START_TIME);
+            final int endTimeForDetail= cursor.getInt(COL_TIME_END_TIME);
+            final String placeForDetail= cursor.getString(COL_TIME_PLACE);
+
+
             TextView subject = new TextView(getActivity());
             subject.setWidth(cellWidth);
             subject.setHeight((int)(cellHeight*rowSpan));
             subject.setText(cursor.getString(COL_SUBJECT_NAME));
             subject.setTextSize(25);
             subject.setGravity(Gravity.CENTER);
-            subject.setBackgroundColor(R.color.abc_background_cache_hint_selector_material_light);
+            subject.setBackgroundResource(Utility.getColorResource(subjectIdForDetail));
             subject.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getActivity(), SubjectDetailActivity.class);
+                    intent.putExtra(SubjectDetailActivity.ARG_SUBJECT_ID, subjectIdForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_SUBJECT_NAME, subjectNameForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_SUBJECT_PROFESSOR, subjectProfessorForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_TIME_DAY, dayForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_TIME_START_TIME, startTimeForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_TIME_END_TIME, endTimeForDetail);
+                    intent.putExtra(SubjectDetailActivity.ARG_TIME_PLACE, placeForDetail);
+
                     startActivity(intent);
                 }
             });
@@ -560,6 +559,7 @@ public class TimeTableFragment extends Fragment {
             previousCol = col;
             previousEnd = end;
         }
+        cursor.close();
     }
 
 

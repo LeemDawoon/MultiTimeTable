@@ -57,4 +57,158 @@ public class Utility {
     }*/
 
 
+    public static int getDayAbbrResource(int day) {
+        int res=0;
+        switch (day){
+            case 0:
+            {
+                res = R.string.time_and_day;
+                break;
+            }
+            case 1:
+            {
+                res = R.string.time_mon;
+                break;
+            }
+            case 2:
+            {
+                res = R.string.time_tue;
+                break;
+            }
+            case 3:
+            {
+                res = R.string.time_wed;
+                break;
+            }
+            case 4:
+            {
+                res = R.string.time_thu;
+                break;
+            }
+            case 5:
+            {
+                res = R.string.time_fri;
+                break;
+            }
+            case 6:
+            {
+                res = R.string.time_sat;
+                break;
+            }
+            case 7:
+            {
+                res = R.string.time_sun;
+                break;
+            }
+        }
+        return res;
+    }
+    public static int getDayResource(int day) {
+        int res=0;
+        switch (day){
+            case 1:
+            {
+                res = R.string.monday;
+                break;
+            }
+            case 2:
+            {
+                res = R.string.tuesday;
+                break;
+            }
+            case 3:
+            {
+                res = R.string.wednesday;
+                break;
+            }
+            case 4:
+            {
+                res = R.string.thursday;
+                break;
+            }
+            case 5:
+            {
+                res = R.string.friday;
+                break;
+            }
+            case 6:
+            {
+                res = R.string.saturday;
+                break;
+            }
+            case 7:
+            {
+                res = R.string.sunday;
+                break;
+            }
+        }
+        return res;
+    }
+    public static int getColorResource(int subjectId) {
+        int res=0;
+        subjectId=subjectId%12;
+        switch (subjectId){
+            case 0:
+            {
+                res = R.color.subject_12;
+                break;
+            }
+            case 1:
+            {
+                res = R.color.subject_01;
+                break;
+            }
+            case 2:
+            {
+                res = R.color.subject_02;
+                break;
+            }
+            case 3:
+            {
+                res = R.color.subject_03;
+                break;
+            }
+            case 4:
+            {
+                res = R.color.subject_04;
+                break;
+            }
+            case 5:
+            {
+                res = R.color.subject_05;
+                break;
+            }
+            case 6:
+            {
+                res = R.color.subject_06;
+                break;
+            }
+            case 7:
+            {
+                res = R.color.subject_07;
+                break;
+            }
+            case 8:
+            {
+                res = R.color.subject_08;
+                break;
+            }
+            case 9:
+            {
+                res = R.color.subject_09;
+                break;
+            }
+            case 10:
+            {
+                res = R.color.subject_10;
+                break;
+            }
+            case 11:
+            {
+                res = R.color.subject_11;
+                break;
+            }
+        }
+        return res;
+    }
 }

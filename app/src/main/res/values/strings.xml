@@ -18,9 +18,17 @@
     <string name="schedule">TimeTable</string>
     <string name="widget_setting">On/Off</string>
 
+    <!-- Subject Detail View -->
+    <string name="subject_info">info</string>
+    <string name="subject_day">day</string>
+    <string name="subject_time">time</string>
+    <string name="subject_place">place</string>
+    <string name="subject_professor">professor</string>
+
+
     <!-- EditText Hint -->
     <string name="enter_your_schedule_name">TimeTable\'s Name</string>
-    <string name="enter_a_name_of_subject">Subject </string>
+    <string name="enter_a_name_of_subject">Subject</string>
     <string name="enter_a_name_of_professor">Professor</string>
     <string name="enter_a_name_of_classroom">Classroom</string>
 
@@ -47,6 +55,18 @@
     <string name="time_fri">FRI</string>
     <string name="time_sat">SAT</string>
     <string name="time_sun">SUN</string>
+
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+
+
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_add_subject">AddSubjectActivity</string>
     <string name="title_activity_select_schedule"> Select TimeTables to Compare </string>
