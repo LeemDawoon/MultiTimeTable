@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_new"
+        android:title="@string/action_add_subject"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_new"
+        />
+    <item android:id="@+id/action_compare"
+        android:title="@string/action_compare_schedule"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_compare"
+        />
+    <item android:id="@+id/action_share"
+        android:title="@string/action_share"
+        app:showAsAction="always"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+
+</menu>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="day_array">
+        <item>@string/time_day</item>
+        <item>@string/time_mon</item>
+        <item>@string/time_tue</item>
+        <item>@string/time_wed</item>
+        <item>@string/time_thu</item>
+        <item>@string/time_fri</item>
+        <item>@string/time_sat</item>
+        <item>@string/time_sun</item>
+    </string-array>
+</resources>

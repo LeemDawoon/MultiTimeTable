@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.com.multitimetable.android.multitimetable.SubjectDetailActivity">
+    <item android:id="@+id/action_edit"
+        android:title="@string/action_edit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_edit"/>
+    <item android:id="@+id/action_discard"
+        android:title="@string/action_discard"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_discard"/>
+</menu>

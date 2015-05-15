@@ -1,0 +1,247 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:id="@+id/activityAddSubjectLayout"
+    tools:context="app.com.multitimetable.android.multitimetable.AddSubjectActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:text="@string/btn_cancel"
+            android:layout_weight="1"
+            android:id="@+id/btnCancel" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:text="@string/btn_ok"
+            android:layout_weight="1"
+            android:id="@+id/btnOK" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newSubjectName"
+        android:hint="@string/enter_a_name_of_subject"
+        android:layout_gravity="center_horizontal" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/professorName"
+        android:hint="@string/enter_a_name_of_professor"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/abc_text_size_small_material"/>
+
+
+
+    <!-- 장소및 시간 추가 형식 -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/daySpinner0"
+        android:entries="@array/day_array"
+        android:layout_marginTop="@dimen/abc_text_size_small_material"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="시작시간"
+            android:ems="10"
+            android:id="@+id/startTime0" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="종료시간"
+            android:ems="10"
+            android:id="@+id/endTime0" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newClassroomName0"
+        android:hint="@string/enter_a_name_of_classroom" />
+
+
+    <!-- 장소및 시간 추가 형식 -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/daySpinner1"
+        android:entries="@array/day_array"
+        android:layout_marginTop="@dimen/abc_text_size_small_material"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="시작시간"
+            android:ems="10"
+            android:id="@+id/startTime1" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="종료시간"
+            android:ems="10"
+            android:id="@+id/endTime1" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newClassroomName1"
+        android:hint="@string/enter_a_name_of_classroom" />
+
+
+    <!-- 장소및 시간 추가 형식 -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/daySpinner2"
+        android:entries="@array/day_array"
+        android:layout_marginTop="@dimen/abc_text_size_small_material"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="시작시간"
+            android:ems="10"
+            android:id="@+id/startTime2" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="종료시간"
+            android:ems="10"
+            android:id="@+id/endTime2" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newClassroomName2"
+        android:hint="@string/enter_a_name_of_classroom" />
+
+
+    <!-- 장소및 시간 추가 형식 -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/daySpinner3"
+        android:entries="@array/day_array"
+        android:layout_marginTop="@dimen/abc_text_size_small_material"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="시작시간"
+            android:ems="10"
+            android:id="@+id/startTime3" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="종료시간"
+            android:ems="10"
+            android:id="@+id/endTime3" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newClassroomName3"
+        android:hint="@string/enter_a_name_of_classroom" />
+
+    <!-- 장소및 시간 추가 형식 -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/daySpinner4"
+        android:entries="@array/day_array"
+        android:layout_marginTop="@dimen/abc_text_size_small_material"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="시작시간"
+            android:ems="10"
+            android:id="@+id/startTime4" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="종료시간"
+            android:ems="10"
+            android:id="@+id/endTime4" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newClassroomName4"
+        android:hint="@string/enter_a_name_of_classroom" />
+
+
+
+    <!-- 장소 및 시간 추가 버튼 -->
+    <!--
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/makeNewFormBtn"
+        android:src="@drawable/ic_action_new"
+        android:layout_gravity="center_horizontal" />
+        -->
+</LinearLayout>
