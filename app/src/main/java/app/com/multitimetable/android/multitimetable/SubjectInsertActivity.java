@@ -13,11 +13,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import app.com.multitimetable.android.multitimetable.data.MTTContract;
 
@@ -36,7 +42,8 @@ public class SubjectInsertActivity extends ActionBarActivity {
         public EditText place;
     }
 
-    public ViewHolderForTime[] mViewHoldersForTime;
+//    public ViewHolderForTime[] mViewHoldersForTime;
+    public ArrayList<ViewHolderForTime> mViewHoldersForTime;
 
 
     @Override
@@ -44,47 +51,39 @@ public class SubjectInsertActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_insert);
 
-        mViewHoldersForTime = new ViewHolderForTime[5];
+        mViewHoldersForTime = new ArrayList<ViewHolderForTime>();
 
-        mViewHoldersForTime[0] = new ViewHolderForTime();
-        mViewHoldersForTime[0].day = (Spinner) this.findViewById(R.id.daySpinner0);
-        mViewHoldersForTime[0].starTime = (EditText)this.findViewById(R.id.startTime0);
-        mViewHoldersForTime[0].starTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[0].endTime = (EditText)this.findViewById(R.id.endTime0);
-        mViewHoldersForTime[0].endTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[0].place = (EditText)this.findViewById(R.id.newClassroomName0);
+        ViewHolderForTime viewHolderForTime = new ViewHolderForTime();
+        viewHolderForTime.day = (Spinner) this.findViewById(R.id.daySpinner);
+        viewHolderForTime.starTime = (EditText)this.findViewById(R.id.startTime);
+        viewHolderForTime.starTime.setOnClickListener(timeviewOnclickListener);
+        viewHolderForTime.endTime = (EditText)this.findViewById(R.id.endTime);
+        viewHolderForTime.endTime.setOnClickListener(timeviewOnclickListener);
+        viewHolderForTime.place = (EditText)this.findViewById(R.id.classroomName);
+        mViewHoldersForTime.add(viewHolderForTime);
 
-        mViewHoldersForTime[1] = new ViewHolderForTime();
-        mViewHoldersForTime[1].day = (Spinner) this.findViewById(R.id.daySpinner1);
-        mViewHoldersForTime[1].starTime = (EditText)this.findViewById(R.id.startTime1);
-        mViewHoldersForTime[1].starTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[1].endTime = (EditText)this.findViewById(R.id.endTime1);
-        mViewHoldersForTime[1].endTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[1].place = (EditText)this.findViewById(R.id.newClassroomName1);
+        ViewHolderForTime viewHolderForTime1 = new ViewHolderForTime();
+        viewHolderForTime1.day = (Spinner) this.findViewById(R.id.daySpinner1);
+        viewHolderForTime1.starTime = (EditText)this.findViewById(R.id.startTime1);
+        viewHolderForTime1.starTime.setOnClickListener(timeviewOnclickListener);
+        viewHolderForTime1.endTime = (EditText)this.findViewById(R.id.endTime1);
+        viewHolderForTime1.endTime.setOnClickListener(timeviewOnclickListener);
+        viewHolderForTime1.place = (EditText)this.findViewById(R.id.classroomName1);
+        mViewHoldersForTime.add(viewHolderForTime1);
 
-        mViewHoldersForTime[2] = new ViewHolderForTime();
-        mViewHoldersForTime[2].day = (Spinner) this.findViewById(R.id.daySpinner2);
-        mViewHoldersForTime[2].starTime = (EditText)this.findViewById(R.id.startTime2);
-        mViewHoldersForTime[2].starTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[2].endTime = (EditText)this.findViewById(R.id.endTime2);
-        mViewHoldersForTime[2].endTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[2].place = (EditText)this.findViewById(R.id.newClassroomName2);
+        /*ImageButton makeNewFormBtn = (ImageButton) this.findViewById(R.id.makeNewFormBtn);
+        makeNewFormBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout timeFormLinearLayout = (LinearLayout) SubjectInsertActivity.this.findViewById(R.id.timeFormLinearLayout);
+                Spinner day = new Spinner(SubjectInsertActivity.this);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SubjectInsertActivity.this, android.R.layout.simple_spinner_item, new ArrayList(R.array.day_array));
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                day.setAdapter(adapter);
+                timeFormLinearLayout.addView(day);
 
-        mViewHoldersForTime[3] = new ViewHolderForTime();
-        mViewHoldersForTime[3].day = (Spinner) this.findViewById(R.id.daySpinner3);
-        mViewHoldersForTime[3].starTime = (EditText)this.findViewById(R.id.startTime3);
-        mViewHoldersForTime[3].starTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[3].endTime = (EditText)this.findViewById(R.id.endTime3);
-        mViewHoldersForTime[3].endTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[3].place = (EditText)this.findViewById(R.id.newClassroomName3);
-
-        mViewHoldersForTime[4] = new ViewHolderForTime();
-        mViewHoldersForTime[4].day = (Spinner) this.findViewById(R.id.daySpinner4);
-        mViewHoldersForTime[4].starTime = (EditText)this.findViewById(R.id.startTime4);
-        mViewHoldersForTime[4].starTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[4].endTime = (EditText)this.findViewById(R.id.endTime4);
-        mViewHoldersForTime[4].endTime.setOnClickListener(timeviewOnclickListener);
-        mViewHoldersForTime[4].place = (EditText)this.findViewById(R.id.newClassroomName4);
+            }
+        });*/
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
@@ -101,12 +100,12 @@ public class SubjectInsertActivity extends ActionBarActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newSubjectName = ((EditText)findViewById(R.id.newSubjectName)).getText().toString();
+                String newSubjectName = ((EditText)findViewById(R.id.subjectName)).getText().toString();
                 String professorName = ((EditText)findViewById(R.id.professorName)).getText().toString();
 
-                int day0 = mViewHoldersForTime[0].day.getSelectedItemPosition();
-                int startTime0 = Utility.getFormattedTimeForDB(mViewHoldersForTime[0].starTime.getText().toString());
-                int endTime0 = Utility.getFormattedTimeForDB(mViewHoldersForTime[0].endTime.getText().toString());
+                int day0 = mViewHoldersForTime.get(0).day.getSelectedItemPosition();
+                int startTime0 = Utility.getFormattedTimeForDB(mViewHoldersForTime.get(0).starTime.getText().toString());
+                int endTime0 = Utility.getFormattedTimeForDB(mViewHoldersForTime.get(0).endTime.getText().toString());
 
                 if (newSubjectName != null && newSubjectName != "" && day0!=0 && startTime0!=0 && endTime0!=0) {
                     ContentValues subjectValues = new ContentValues();
@@ -121,11 +120,11 @@ public class SubjectInsertActivity extends ActionBarActivity {
 
                     Toast.makeText(getBaseContext(), "Insert ID :" + ContentUris.parseId(insertedSubjectUri), Toast.LENGTH_LONG).show();
 
-                    for(int i=0; i< mViewHoldersForTime.length; i++){
-                        int day = mViewHoldersForTime[i].day.getSelectedItemPosition();
-                        int startTime = Utility.getFormattedTimeForDB(mViewHoldersForTime[i].starTime.getText().toString());
-                        int endTime = Utility.getFormattedTimeForDB(mViewHoldersForTime[i].endTime.getText().toString());
-                        String place = mViewHoldersForTime[i].place.getText().toString();
+                    for(int i=0; i< mViewHoldersForTime.size(); i++){
+                        int day = mViewHoldersForTime.get(i).day.getSelectedItemPosition();
+                        int startTime = Utility.getFormattedTimeForDB(mViewHoldersForTime.get(i).starTime.getText().toString());
+                        int endTime = Utility.getFormattedTimeForDB(mViewHoldersForTime.get(i).endTime.getText().toString());
+                        String place = mViewHoldersForTime.get(i).place.getText().toString();
 
                         if(day != 0 && startTime != 0 && endTime !=0 ) {
                             ContentValues timeValues = new ContentValues();

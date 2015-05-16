@@ -235,8 +235,8 @@ public class MTTProvider extends ContentProvider {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         MTTContract.TimeEntry.TABLE_NAME,
                         projection,
-                        timeSubjectIdSelection,
-                        new String[]{Integer.toString(MTTContract.TimeEntry.getSubjectIdFromUri(uri))},
+                        selection,
+                        selectionArgs,
                         null,
                         null,
                         sortOrder
