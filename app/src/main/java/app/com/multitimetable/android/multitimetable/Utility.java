@@ -22,6 +22,19 @@ public class Utility {
     public static int getDisplayHeight() {return displayHeight;}
     public static void setDisplayHeight(int displayHeight) { Utility.displayHeight = displayHeight;}
 
+    public static int getHourCellHeight(int rowCount){
+        int hourCellHeight = (displayHeight-actionBarHeight)/rowCount;
+        if (hourCellHeight<actionBarHeight) {
+            hourCellHeight = actionBarHeight;
+        }
+        return hourCellHeight;
+    };
+
+    public static int dpToPx(Context context, int dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round((float)dp * density);
+    }
+
     public static int getActionBarHeight() {return actionBarHeight;}
     public static void setActionBarHeight(int actionBarHeight) {Utility.actionBarHeight = actionBarHeight;}
 

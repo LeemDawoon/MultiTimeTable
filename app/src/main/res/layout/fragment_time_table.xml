@@ -4,50 +4,30 @@
     android:layout_height="match_parent"
     tools:context="app.com.multitimetable.android.multitimetable.TimeTableFragment"
     >
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-
-
-
-
-
-    <GridLayout
-        android:id="@+id/backgroundGridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:rowCount="26"
-        android:columnCount="8"
-        android:rowOrderPreserved="false"
-        android:useDefaultMargins="false"
-        android:orientation="horizontal"
-        >
-
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView0"
-            android:background="@android:drawable/screen_background_light"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnWeight="1" />-->
-
-
-    </GridLayout>
-
-    <GridLayout
-        android:id="@+id/timetableGridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:rowCount="26"
-        android:columnCount="8"
-        android:rowOrderPreserved="false"
-        android:useDefaultMargins="false"
-        android:orientation="horizontal">
-
-
-
-    </GridLayout>
-
-
-
+        <GridLayout
+            android:id="@+id/backgroundGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rowCount="25"
+            android:columnCount="8"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal"
+            >
+        </GridLayout>
+        <GridLayout
+            android:id="@+id/timetableGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rowCount="25"
+            android:columnCount="8"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="false"
+            android:orientation="horizontal">
+        </GridLayout>
+    <!--</FrameLayout>-->
 </FrameLayout>

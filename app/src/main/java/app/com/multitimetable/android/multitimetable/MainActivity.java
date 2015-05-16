@@ -53,6 +53,8 @@ public class MainActivity extends ActionBarActivity
         /* 액션바 56dp값이 pixel로 재대로 변환되지 않음.. 일단 보류 . */
 //        int actionBarPixel = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,R.dimen.abc_action_bar_default_height_material,displayMetrics);
 //        Utility.setActionBarHeight(actionBarPixel);
+
+        Utility.setActionBarHeight(Utility.dpToPx(this, 56));
         Utility.setDisplayHeight(displayMetrics.heightPixels);
     }
 

@@ -1,19 +1,31 @@
 package app.com.multitimetable.android.multitimetable;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 
 public class CompareScheduleActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare_schedule);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ArrayList<Integer> scheduleIdArr = getIntent().getIntegerArrayListExtra(CompareScheduleFragment.ARG_SCHEDULE_ID_ARRAY);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, CompareScheduleFragment.newInstance(scheduleIdArr))
+                .commit();
     }
 
 
