@@ -38,17 +38,19 @@ public class MTTProvider extends ContentProvider {
     static final int SCHEDULE = 100;
 
     static final int SUBJECT = 300;
-    static final int SUBJECT_AND_TIME_BY_SCHEDULE=301;
+    static final int SUBJECT_FOR_POINT_QUERY = 301;
+
+    static final int SUBJECT_AND_TIME_BY_SCHEDULE=302;
 
     static final int TIME = 500;
 
 
-    private static final SQLiteQueryBuilder subjectAndTimeByScheduleQueryBuilder;
+    private static final SQLiteQueryBuilder subjectAndTimeQueryBuilder;
 
     static{
-        subjectAndTimeByScheduleQueryBuilder = new SQLiteQueryBuilder();
+        subjectAndTimeQueryBuilder = new SQLiteQueryBuilder();
 
-        subjectAndTimeByScheduleQueryBuilder.setTables(
+        subjectAndTimeQueryBuilder.setTables(
                 MTTContract.SubjectEntry.TABLE_NAME + " INNER JOIN " +
                         MTTContract.TimeEntry.TABLE_NAME +
                         " ON " + MTTContract.SubjectEntry.TABLE_NAME +
@@ -57,11 +59,14 @@ public class MTTProvider extends ContentProvider {
                         "." + MTTContract.TimeEntry.COLUMN_SUBJECT_KEY);
     }
 
-    //subject.schedule_id = ?
-    private static final String scheduleIdSelection = MTTContract.SubjectEntry.TABLE_NAME+ "." + MTTContract.SubjectEntry.COLUMN_SCHEDULE_KEY + " = ? ";
+    // subject.schedule_id = ?
+    private static final String subjectScheduleIdSelection = MTTContract.SubjectEntry.TABLE_NAME+ "." + MTTContract.SubjectEntry.COLUMN_SCHEDULE_KEY + " = ? ";
 
-    //time.subject_id =?
-    private static final String subjectIdSelection = MTTContract.TimeEntry.TABLE_NAME+ "." + MTTContract.TimeEntry.COLUMN_SUBJECT_KEY + " = ? ";
+    // subject._id = ?
+    private static final String subjectSubjectIdSelection = MTTContract.SubjectEntry.TABLE_NAME+ "." + MTTContract.SubjectEntry._ID + " = ? ";
+
+    // time.subject_id = ?
+    private static final String timeSubjectIdSelection = MTTContract.TimeEntry.TABLE_NAME+ "." + MTTContract.TimeEntry.COLUMN_SUBJECT_KEY + " = ? ";
 //
 //    //location.location_setting = ? AND date >= ?
 //    private static final String sLocationSettingWithStartDateSelection =
@@ -115,6 +120,8 @@ public class MTTProvider extends ContentProvider {
 //        matcher.addURI(authority, MTTContract.PATH_LOCATION, LOCATION);
         matcher.addURI(authority, MTTContract.PATH_SCHEDULE, SCHEDULE);
         matcher.addURI(authority, MTTContract.PATH_SUBJECT, SUBJECT);
+        matcher.addURI(authority, MTTContract.PATH_SUBJECT+"/#", SUBJECT_FOR_POINT_QUERY);
+
 
         // '#'은 숫자를 의미. '*'는 문자를 의미.
         matcher.addURI(authority, MTTContract.PATH_SUBJECT+"/"+MTTContract.PATH_TIME, SUBJECT_AND_TIME_BY_SCHEDULE);
@@ -157,6 +164,8 @@ public class MTTProvider extends ContentProvider {
 //                return MTTContract.LocationEntry.CONTENT_TYPE;
             case SCHEDULE:
                 return MTTContract.ScheduleEntry.CONTENT_TYPE;
+            case SUBJECT_FOR_POINT_QUERY:
+                return MTTContract.SubjectEntry.CONTENT_ITEM_TYPE;
             case SUBJECT:
                 return MTTContract.SubjectEntry.CONTENT_TYPE;
             case SUBJECT_AND_TIME_BY_SCHEDULE:
@@ -187,11 +196,23 @@ public class MTTProvider extends ContentProvider {
                 );
                 break;
             }
+            case SUBJECT_FOR_POINT_QUERY: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        MTTContract.SubjectEntry.TABLE_NAME,
+                        projection,
+                        subjectSubjectIdSelection,
+                        new String[]{Integer.toString(MTTContract.SubjectEntry.getSubjectIdFromUri(uri))},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             case SUBJECT: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         MTTContract.SubjectEntry.TABLE_NAME,
                         projection,
-                        scheduleIdSelection,
+                        subjectScheduleIdSelection,
                         new String[]{Integer.toString(MTTContract.SubjectEntry.getScheduleIdFromUri(uri))},
                         null,
                         null,
@@ -200,9 +221,9 @@ public class MTTProvider extends ContentProvider {
                 break;
             }
             case SUBJECT_AND_TIME_BY_SCHEDULE: {
-                retCursor = subjectAndTimeByScheduleQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                retCursor = subjectAndTimeQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                         projection,
-                        scheduleIdSelection,
+                        subjectScheduleIdSelection,
                         new String[]{Integer.toString(MTTContract.SubjectEntry.getScheduleIdFromUri(uri))},
                         null,
                         null,
@@ -214,7 +235,7 @@ public class MTTProvider extends ContentProvider {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         MTTContract.TimeEntry.TABLE_NAME,
                         projection,
-                        subjectIdSelection,
+                        timeSubjectIdSelection,
                         new String[]{Integer.toString(MTTContract.TimeEntry.getSubjectIdFromUri(uri))},
                         null,
                         null,
@@ -282,6 +303,11 @@ public class MTTProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         MTTContract.ScheduleEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case SUBJECT:
+                rowsDeleted = db.delete(
+                        MTTContract.SubjectEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -310,6 +336,12 @@ public class MTTProvider extends ContentProvider {
         switch (match) {
             case SCHEDULE:
                 rowsUpdated = db.update(MTTContract.ScheduleEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case SUBJECT:
+                rowsUpdated = db.update(MTTContract.SubjectEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case TIME:
+                rowsUpdated = db.update(MTTContract.TimeEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

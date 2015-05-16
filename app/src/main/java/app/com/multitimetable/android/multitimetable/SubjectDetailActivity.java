@@ -1,5 +1,6 @@
 package app.com.multitimetable.android.multitimetable;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
@@ -11,22 +12,27 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class SubjectDetailActivity extends ActionBarActivity {
+public class SubjectDetailActivity extends ActionBarActivity implements SubjectDeleteDialogFragment.SubjectDeleteDialogFragmentCallback {
 
-    public static final String ARG_SUBJECT_ID="arg_subject_id";
-    public static final String ARG_SUBJECT_NAME="arg_subject_name";
-    public static final String ARG_SUBJECT_PROFESSOR="arg_subject_professor";
-    public static final String ARG_TIME_DAY="arg_time_day";
-    public static final String ARG_TIME_START_TIME="arg_time_start_time";
-    public static final String ARG_TIME_END_TIME="arg_time_end_time";
-    public static final String ARG_TIME_PLACE="arg_time_place";
+    public static final String ARG_SECTION_NUMBER="section_number";
+
+    public static final String ARG_SUBJECT_ID="subject_id";
+    public static final String ARG_SUBJECT_NAME="subject_name";
+    public static final String ARG_SUBJECT_PROFESSOR="subject_professor";
+    public static final String ARG_TIME_DAY="time_day";
+    public static final String ARG_TIME_START_TIME="time_start_time";
+    public static final String ARG_TIME_END_TIME="time_end_time";
+    public static final String ARG_TIME_PLACE="atime_place";
 
 
+    private int mSectionNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_detail);
         Intent thisActivityIntent = getIntent();
+
+        mSectionNumber = thisActivityIntent.getIntExtra(ARG_SECTION_NUMBER,0);
 
         int subjectIdData = thisActivityIntent.getIntExtra(ARG_SUBJECT_ID,0);
         String subjectNameData = thisActivityIntent.getStringExtra(ARG_SUBJECT_NAME);
@@ -78,20 +84,29 @@ public class SubjectDetailActivity extends ActionBarActivity {
         }
         if (id == R.id.action_edit) {
             Intent intent = new Intent(this, SubjectUpdateActivity.class);
+            intent.putExtra(SubjectUpdateActivity.ARG_SUBJECT_ID, getIntent().getIntExtra(ARG_SUBJECT_ID,0));
             startActivity(intent);
 
             return true;
         }
         if (id == R.id.action_discard) {
             DialogFragment subjectDeleteDialogFragment = new SubjectDeleteDialogFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ScheduleUpdateDialogFragment.ARG_SCHEDULE_ID, getArguments().getInt(ARG_SCHEDULE_ID));
-//            args.putString(ScheduleUpdateDialogFragment.ARG_SCHEDULE_NAME, getArguments().getString(ARG_SCHEDULE_NAME));
-//            subjectDeleteDialogFragment.setArguments(args);
+            Bundle args = new Bundle();
+            args.putInt(SubjectDeleteDialogFragment.ARG_SUBJECT_ID, getIntent().getIntExtra(ARG_SUBJECT_ID, 0));
+            args.putString(SubjectDeleteDialogFragment.ARG_SUBJECT_NAME, getIntent().getStringExtra(ARG_SUBJECT_NAME));
+            subjectDeleteDialogFragment.setArguments(args);
             subjectDeleteDialogFragment.show(this.getSupportFragmentManager(), "SUBJECT_DELETE_DIALOG_FRAGMENT");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSubjectDeleteComplete() {
+        Intent intent = new Intent();
+        intent.putExtra(ARG_SECTION_NUMBER, mSectionNumber);
+        setResult(Activity.RESULT_OK, intent);
+        onBackPressed();
     }
 }

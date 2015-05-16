@@ -98,6 +98,10 @@ public class MTTContract {
         }
 
         // query.
+
+        public static Uri buildSubjectWithSubjectIdUri(int subjectId) {
+            return CONTENT_URI.buildUpon().appendPath(Integer.toString(subjectId)).build();
+        }
         public static Uri buildSubjectWithScheduleIdUri(int scheduleId){
             return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_SCHEDULE_KEY,Integer.toString(scheduleId)).build();
         }
@@ -113,6 +117,10 @@ public class MTTContract {
                 return Integer.parseInt(scheduleIdString);
             else
                 return 0;
+        }
+
+        public static int getSubjectIdFromUri(Uri uri) {
+            return Integer.parseInt(uri.getPathSegments().get(1));
         }
 
     }

@@ -8,26 +8,6 @@
     android:id="@+id/activityAddSubjectLayout"
     tools:context="app.com.multitimetable.android.multitimetable.SubjectInsertActivity">
 
-   <!-- <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:text="@string/btn_cancel"
-            android:layout_weight="1"
-            android:id="@+id/btnCancel" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:text="@string/btn_ok"
-            android:layout_weight="1"
-            android:id="@+id/btnOK" />
-    </LinearLayout>
--->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

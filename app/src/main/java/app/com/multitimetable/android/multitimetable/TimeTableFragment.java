@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +41,9 @@ public class TimeTableFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_SELECTED_SCHEDULE_ID = "selected_schedule_id";
     private static final String ARG_SELECTED_SCHEDULE_NAME = "selected_schedule_name";
+
+    private static final int REQ_SUBJECT_INSERT=100;
+    private static final int REQ_SUBJECT_DETAIL=200;
 
 
     private static final String[] TIMETABLE_COLUMNS = {
@@ -101,6 +105,7 @@ public class TimeTableFragment extends Fragment {
 
     public interface TimeTableFragmentCallbacks {
         public void onSubjectInsertComplete(int sectionNumber);
+        public void onSubjectDeleteComplete(int sectionNumber);
     }
 
 //    public View rootView;
@@ -169,7 +174,7 @@ public class TimeTableFragment extends Fragment {
                     .putExtra(SubjectInsertActivity.SELECTED_SCHEDULE_ID, mSelectedScheduleID)
                     .putExtra(SECTION_NUMBER, mSectionNumber);
 //            startActivity(intent);
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, REQ_SUBJECT_INSERT);
             return true;
         }
         if (id == R.id.action_compare) {
@@ -241,9 +246,20 @@ public class TimeTableFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case Activity.RESULT_OK:
-                ((TimeTableFragmentCallbacks)getActivity()).onSubjectInsertComplete(data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER, 0));
+        Log.e("aaaaaaaaa", requestCode+"");
+        Log.e("aaaaaaaaa", resultCode+"");
+        switch (requestCode) {
+            case REQ_SUBJECT_INSERT:
+                if(resultCode==Activity.RESULT_OK) {
+                    ((TimeTableFragmentCallbacks)getActivity()).onSubjectInsertComplete(data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER,0));
+                    Log.e("aaaaaaaaa", data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER,0)+"");
+                }
+                break;
+            case REQ_SUBJECT_DETAIL:
+                if(resultCode==Activity.RESULT_OK) {
+                    ((TimeTableFragmentCallbacks)getActivity()).onSubjectDeleteComplete(data.getIntExtra(SubjectDetailActivity.ARG_SECTION_NUMBER, 0));
+                    Log.e("aaaaaaaaa", data.getIntExtra(SubjectDetailActivity.ARG_SECTION_NUMBER,0)+"");
+                }
                 break;
             default:
                 break;
@@ -452,7 +468,7 @@ public class TimeTableFragment extends Fragment {
         int cellHeight = Utility.getDisplayHeight()/(rowCount+1);
 
 
-        cursorForLayout.close();
+
 
         gridLayout.setColumnCount(columnCount);
 
@@ -493,7 +509,7 @@ public class TimeTableFragment extends Fragment {
 
 
         int previousCol = 0;
-        float previousEnd = 0.0f;
+        float previousEnd = (float)(cursorForLayout.getInt(COL_EARLIEST_TIME));
         while(cursor.moveToNext()){
 
             int col = cursor.getInt(COL_TIME_DAY);
@@ -529,13 +545,11 @@ public class TimeTableFragment extends Fragment {
                     intent.putExtra(SubjectDetailActivity.ARG_TIME_START_TIME, startTimeForDetail);
                     intent.putExtra(SubjectDetailActivity.ARG_TIME_END_TIME, endTimeForDetail);
                     intent.putExtra(SubjectDetailActivity.ARG_TIME_PLACE, placeForDetail);
-
-                    startActivity(intent);
+                    intent.putExtra(SubjectDetailActivity.ARG_SECTION_NUMBER, mSectionNumber);
+                    startActivityForResult(intent, REQ_SUBJECT_DETAIL);
+//                    startActivity(intent);
                 }
             });
-
-
-
 
 
             // 이전 과목 데이터가 지금 과목 데이터와 다른 요일임.
@@ -544,19 +558,23 @@ public class TimeTableFragment extends Fragment {
                 subjectGridLayoutParam.columnSpec = spec(previousCol);
                 subjectGridLayoutParam.rowSpec = spec(1);
                 gridLayout.addView(colLinearLayout[previousCol-1],subjectGridLayoutParam);
-
-            } else {
-                if(previousEnd !=0.0f && previousEnd!=start) {
-                    TextView blank = new TextView(getActivity());
-                    blank.setWidth(cellWidth);
-                    blank.setHeight((int)(cellHeight*(start-previousEnd)/60.0f));
-                    blank.setText("blank");
-                    colLinearLayout[col-1].addView(blank);
-
-                }
+                previousEnd = (float)(cursorForLayout.getInt(COL_EARLIEST_TIME));
 
             }
+
+            if(previousEnd !=0.0f && previousEnd!=start) {
+                TextView blank = new TextView(getActivity());
+                blank.setWidth(cellWidth);
+                blank.setHeight((int)(cellHeight*(start-previousEnd)/60.0f));
+                blank.setText("blank");
+                colLinearLayout[col-1].addView(blank);
+            }
+
             colLinearLayout[col-1].addView(subject);
+
+            previousCol = col;
+            previousEnd = end;
+
 
             if (cursor.isLast()){
                 GridLayout.LayoutParams subjectGridLayoutParam = new GridLayout.LayoutParams();
@@ -565,10 +583,8 @@ public class TimeTableFragment extends Fragment {
                 gridLayout.addView(colLinearLayout[col-1],subjectGridLayoutParam);
             }
 
-
-            previousCol = col;
-            previousEnd = end;
         }
+        cursorForLayout.close();
         cursor.close();
     }
 

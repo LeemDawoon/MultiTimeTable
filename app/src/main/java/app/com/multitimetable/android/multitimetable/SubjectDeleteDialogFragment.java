@@ -12,9 +12,12 @@ import app.com.multitimetable.android.multitimetable.data.MTTContract;
 
 
 public class SubjectDeleteDialogFragment extends android.support.v4.app.DialogFragment {
-    public static final String ARG_SCHEDULE_ID = "schedule_id";
-    public static final String ARG_SUBJECT_NAME = "schedule_name";
+    public static final String ARG_SUBJECT_ID = "subject_id";
+    public static final String ARG_SUBJECT_NAME = "subject_name";
 
+    public interface SubjectDeleteDialogFragmentCallback{
+        public void onSubjectDeleteComplete();
+    }
 
     private View mDialogView;
 
@@ -27,7 +30,7 @@ public class SubjectDeleteDialogFragment extends android.support.v4.app.DialogFr
 
         mDialogView = getActivity().getLayoutInflater().inflate(android.R.layout.simple_list_item_activated_1, null);
         TextView textView = (TextView)mDialogView.findViewById(android.R.id.text1);
-        textView.setText(/*"'"+getArguments().getString(ARG_SUBJECT_NAME)+*/"'를 삭제하시겠습니까?");
+        textView.setText("'"+getArguments().getString(ARG_SUBJECT_NAME)+"'를 삭제하시겠습니까?");
 
         builder.setTitle(R.string.delete_subject)
                 .setView(mDialogView)
@@ -37,13 +40,14 @@ public class SubjectDeleteDialogFragment extends android.support.v4.app.DialogFr
                     public void onClick(DialogInterface dialog, int id) {
 
 
-                        /*int count = getActivity().getContentResolver().delete(
-                                MTTContract.ScheduleEntry.CONTENT_URI,
-                                MTTContract.ScheduleEntry._ID + "=?",
-                                new String[]{Integer.toString(getArguments().getInt(ARG_SCHEDULE_ID))}
+                       int count = getActivity().getContentResolver().delete(
+                                MTTContract.SubjectEntry.CONTENT_URI,
+                                MTTContract.SubjectEntry._ID + " = ? ",
+                                new String[]{Integer.toString(getArguments().getInt(ARG_SUBJECT_ID))}
                         );
+                        ((SubjectDeleteDialogFragmentCallback)getActivity()).onSubjectDeleteComplete();
 
-                        Toast.makeText(getActivity(), "count:" + count, Toast.LENGTH_LONG).show();*/
+//                        Toast.makeText(getActivity(), "count:" + count, Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {

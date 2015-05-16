@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity
-        implements TimeTableDrawerFragment.NavigationDrawerCallbacks, TimeTableFragment.TimeTableFragmentCallbacks {
+        implements TimeTableDrawerFragment.NavigationDrawerCallbacks,
+        TimeTableFragment.TimeTableFragmentCallbacks{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -133,11 +134,11 @@ public class MainActivity extends ActionBarActivity
     /* 과목 추가 콜백 함수. TimeTableFragment를 reload 하기 위함. */
     @Override
     public void onSubjectInsertComplete(int sectionNumber) {
-//        setTitleAndSelectedScheduleID(drawerPosition);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, TimeTableFragment.newInstance(drawerPosition + 1, mSelectedScheduleID, mSelectedScheduleName))
-//                .commit();
+        onNavigationDrawerItemSelected(sectionNumber-1);
+    }
+
+    @Override
+    public void onSubjectDeleteComplete(int sectionNumber) {
         onNavigationDrawerItemSelected(sectionNumber-1);
     }
 
@@ -159,6 +160,8 @@ public class MainActivity extends ActionBarActivity
         }
 
     }
+
+
 }
 
 
