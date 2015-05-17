@@ -116,6 +116,54 @@ public class Utility {
         }
         return res;
     }
+
+    public static String getDayAbbrString(int day) {
+        String res="";
+        switch (day){
+            case 0:
+            {
+                res = "";
+                break;
+            }
+            case 1:
+            {
+                res = "MON";
+                break;
+            }
+            case 2:
+            {
+                res = "TUE";
+                break;
+            }
+            case 3:
+            {
+                res = "WED";
+                break;
+            }
+            case 4:
+            {
+                res = "THU";
+                break;
+            }
+            case 5:
+            {
+                res = "FRI";
+                break;
+            }
+            case 6:
+            {
+                res = "SAT";
+                break;
+            }
+            case 7:
+            {
+                res = "SUN";
+                break;
+            }
+        }
+        return res;
+    }
+
     public static int getDayResource(int day) {
         int res=0;
         switch (day){

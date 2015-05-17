@@ -1,5 +1,7 @@
 package app.com.multitimetable.android.multitimetable;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -56,6 +58,15 @@ public class MainActivity extends ActionBarActivity
 
         Utility.setActionBarHeight(Utility.dpToPx(this, 56));
         Utility.setDisplayHeight(displayMetrics.heightPixels);
+
+
+//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+//        Intent update = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        update.setClass(this, AppWidget.class);
+//        update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetManager.getAppWidgetIds(new ComponentName(this, AppWidget.class)));
+//        this.sendBroadcast(update);
+//        this.finish();
+
     }
 
     /* TimeTableDrawerFragment 콜백

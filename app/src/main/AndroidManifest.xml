@@ -29,8 +29,7 @@
         <activity
             android:name=".SubjectInsertActivity"
             android:label="@string/title_activity_add_subject"
-            android:parentActivityName=".MainActivity"
-            >
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".SelectScheduleActivity"
@@ -61,6 +60,17 @@
             android:name=".SubjectUpdateActivity"
             android:label="@string/title_activity_subject_update" >
         </activity>
+
+
+        <receiver android:name=".AppWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
