@@ -35,18 +35,18 @@ public class SelectScheduleFragment extends Fragment
     static final int COL_IS_OFF = 2;
 
     public ListView mListView;
-    public static SelectScheduleFragment mFragment;
+//    public static SelectScheduleFragment mFragment;
 
     public static SelectScheduleFragment newInstance() {
-        if (mFragment==null) {
-            mFragment = new SelectScheduleFragment();
-        }
-//        SelectScheduleFragment fragment = new SelectScheduleFragment();
+//        if (mFragment==null) {
+//            mFragment = new SelectScheduleFragment();
+//        }
+        SelectScheduleFragment fragment = new SelectScheduleFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
-        return mFragment;
+        return fragment;
     }
 
     public SelectScheduleFragment() {

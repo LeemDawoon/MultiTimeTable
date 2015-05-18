@@ -178,7 +178,8 @@ public class TimeTableFragment extends Fragment {
             return true;
         }
         if (id == R.id.action_compare) {
-            Intent intent = new Intent(getActivity(), SelectScheduleActivity.class);
+//            Intent intent = new Intent(getActivity(), SelectScheduleActivity.class);
+            Intent intent = new Intent(getActivity(), OverlapScheduleActivity.class);
             startActivity(intent);
             return true;
         }
@@ -246,19 +247,15 @@ public class TimeTableFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("aaaaaaaaa", requestCode+"");
-        Log.e("aaaaaaaaa", resultCode+"");
         switch (requestCode) {
             case REQ_SUBJECT_INSERT:
                 if(resultCode==Activity.RESULT_OK) {
                     ((TimeTableFragmentCallbacks)getActivity()).onSubjectInsertComplete(data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER,0));
-                    Log.e("aaaaaaaaa", data.getIntExtra(SubjectInsertActivity.SECTION_NUMBER,0)+"");
                 }
                 break;
             case REQ_SUBJECT_DETAIL:
                 if(resultCode==Activity.RESULT_OK) {
                     ((TimeTableFragmentCallbacks)getActivity()).onSubjectDeleteComplete(data.getIntExtra(SubjectDetailActivity.ARG_SECTION_NUMBER, 0));
-                    Log.e("aaaaaaaaa", data.getIntExtra(SubjectDetailActivity.ARG_SECTION_NUMBER,0)+"");
                 }
                 break;
             default:

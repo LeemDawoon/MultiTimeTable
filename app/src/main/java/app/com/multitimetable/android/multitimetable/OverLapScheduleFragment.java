@@ -1,8 +1,5 @@
 package app.com.multitimetable.android.multitimetable;
 
-import android.app.Activity;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -10,9 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,25 +15,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import app.com.multitimetable.android.multitimetable.data.MTTContract;
 
-import static android.widget.GridLayout.OnClickListener;
 import static android.widget.GridLayout.spec;
-import static app.com.multitimetable.android.multitimetable.SubjectInsertActivity.SECTION_NUMBER;
 
 
-public class CompareScheduleFragment extends Fragment {
+public class OverLapScheduleFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -115,21 +105,22 @@ public class CompareScheduleFragment extends Fragment {
 //    private String mSelectedScheduleName;
 //    private int mSectionNumber;             // drawer 에서 선택된 섹션변호. 시간표 화면 새로고침 할때 필요함.
 
-    private ArrayList<Integer> mScheduleIdArr;
+    public ArrayList<Integer> mScheduleIdArr;
+    private View mRootView;
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static CompareScheduleFragment newInstance(ArrayList<Integer> scheduleIdArr) {
-        CompareScheduleFragment fragment = new CompareScheduleFragment();
+    public static OverLapScheduleFragment newInstance(ArrayList<Integer> scheduleIdArr) {
+        OverLapScheduleFragment fragment = new OverLapScheduleFragment();
         Bundle args = new Bundle();
         args.putIntegerArrayList(ARG_SCHEDULE_ID_ARRAY, scheduleIdArr);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public CompareScheduleFragment() {
+    public OverLapScheduleFragment() {
     }
 
     @Override
@@ -170,18 +161,29 @@ public class CompareScheduleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView;
+//        View rootView;
 
-        rootView = inflater.inflate(R.layout.fragment_compare_schedule, container, false);
-        GridLayout backgroundGridLayout = (GridLayout)rootView.findViewById(R.id.backgroundGridLayout);
+        mRootView = inflater.inflate(R.layout.fragment_compare_schedule, container, false);
+        GridLayout backgroundGridLayout = (GridLayout)mRootView.findViewById(R.id.backgroundGridLayout);
 
-        FrameLayout compareScheduleFragmentFrameLayout = (FrameLayout) rootView.findViewById(R.id.compareScheduleFragmentFrameLayout);
+        FrameLayout compareScheduleFragmentFrameLayout = (FrameLayout) mRootView.findViewById(R.id.compareScheduleFragmentFrameLayout);
 
         setTimeTableBackground(backgroundGridLayout);
         setTimeTableMain(compareScheduleFragmentFrameLayout, mScheduleIdArr);
 
 
-        return rootView;
+        return mRootView;
+    }
+
+
+    public void refreshView(){
+//        GridLayout backgroundGridLayout = (GridLayout)mRootView.findViewById(R.id.backgroundGridLayout);
+
+        FrameLayout compareScheduleFragmentFrameLayout = (FrameLayout) mRootView.findViewById(R.id.compareScheduleFragmentFrameLayout);
+
+//        setTimeTableBackground(backgroundGridLayout);
+        setTimeTableMain(compareScheduleFragmentFrameLayout, mScheduleIdArr);
+
     }
 
 

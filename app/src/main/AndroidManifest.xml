@@ -61,7 +61,6 @@
             android:label="@string/title_activity_subject_update" >
         </activity>
 
-
         <receiver android:name=".AppWidget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -71,6 +70,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_info" />
         </receiver>
+
+        <activity
+            android:name=".OverlapScheduleActivity"
+            android:label="@string/title_activity_overlap_schedule" >
+        </activity>
     </application>
 
 </manifest>

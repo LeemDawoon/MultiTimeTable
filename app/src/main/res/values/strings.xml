@@ -74,5 +74,9 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
+    <string name="title_activity_overlap_schedule">Overlap TimeTables</string>
+
+    <string name="title_section1">Select TimeTables</string>
+    <string name="title_section2">Overlap TimeTables</string>
 
 </resources>
